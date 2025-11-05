@@ -1,0 +1,49 @@
+# Flutter / Dart
+.dart_tool/
+.packages
+.pub/
+build/
+.flutter-plugins
+.flutter-plugins-dependencies
+.generated_plugin_registrant.*
+
+# Pub cache (local)
+.pub-cache/
+
+# Do not ignore pubspec.lock for apps (keep it committed).
+
+# IDEs
+.idea/
+*.iml
+*.ipr
+*.iws
+.vscode/
+
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db
+
+# Android
+local.properties
+**/.gradle/
+**/build/
+
+# iOS
+Pods/
+Runner/GeneratedPluginRegistrant.*
+*.xcworkspace
+xcuserdata/
+*.xcuserstate
+
+# Keystore files
+**/*.jks
+**/*.keystore
+
+# Generated files
+**/generated_plugin_registrant.*
+**/*.g.dart
+
+# Logs
+*.log
