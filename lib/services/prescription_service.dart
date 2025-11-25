@@ -3,14 +3,20 @@ import 'package:insuguia_mobile/models/patient_model.dart';
 class PrescriptionService {
   /// Gera uma sugestão de prescrição com base nos dados do paciente.
   /// A lógica aqui é uma simplificação para o protótipo acadêmico.
-  String generatePrescription(Patient patient) {
+  /// 
+  /// [patient] - Dados do paciente
+  /// [creatinine] - Valor atual da creatinina (opcional, usa valor padrão se não fornecido)
+  String generatePrescription(Patient patient, [double? creatinine]) {
     // --- LÓGICA DE CÁLCULO BASEADA NAS DIRETRIZES ---
     // Esta é uma implementação simplificada para fins de protótipo.
+    
+    // Use creatinine value if provided (for daily monitoring) or default for basic calculation
+    final currentCreatinine = creatinine ?? 1.0; // Default normal creatinine
 
     // Passo 1: Calcular Dose Total Diária (DTD) de Insulina [cite: 122]
     // Usando uma média de 0.4 UI/kg/dia para o protótipo.
     // Variação: 0.2 a 0.6 UI/kg/dia, dependendo da sensibilidade.
-    double dtd = patient.weight * 0.4;
+    double dtd = patient.peso * 0.4;
 
     // Passo 2: Calcular Insulina Basal (50% da DTD) [cite: 123]
     double basalDose = dtd * 0.5;
@@ -23,9 +29,19 @@ class PrescriptionService {
     int roundedBasalDose = basalDose.round();
     int roundedBolusPerMeal = bolusPerMeal.round();
     
+    // Check if creatinine adjustment is needed
+    String creatinineNote = '';
+    if (currentCreatinine > 1.5) {
+      creatinineNote = '\n⚠️  ATENÇÃO: Creatinina elevada (${currentCreatinine.toStringAsFixed(1)} mg/dL). Considerar ajuste de dose e monitorização renal mais frequente.\n';
+    }
+    
     // --- MONTAGEM DO TEXTO DA PRESCRIÇÃO [cite: 136] ---
     
     final prescription = """
+PACIENTE: ${patient.nome} (${patient.idade} anos, ${patient.sexo.name == 'M' ? 'Masculino' : 'Feminino'})
+PESO: ${patient.peso} kg | ALTURA: ${patient.altura} cm${creatinine != null ? ' | CREATININA: ${creatinine.toStringAsFixed(1)} mg/dL' : ''}
+
+$creatinineNote
 1. Dieta para Diabetes. [cite: 137]
 
 2. Monitorização da Glicemia Capilar: [cite: 138]

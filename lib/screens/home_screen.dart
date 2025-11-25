@@ -32,10 +32,26 @@ class HomeScreen extends StatelessWidget {
               ),
               const SizedBox(height: 40),
               ElevatedButton.icon(
-                icon: const Icon(Icons.start),
-                label: const Text('Iniciar Nova Avaliação'),
+                icon: const Icon(Icons.person_add),
+                label: const Text('Cadastrar Paciente'),
                 onPressed: () {
-                  // Navega para a tela de inserção de dados do paciente
+                  Navigator.pushNamed(context, '/patient_registration');
+                },
+              ),
+              const SizedBox(height: 16),
+              ElevatedButton.icon(
+                icon: const Icon(Icons.medical_services),
+                label: const Text('Nova Prescrição'),
+                onPressed: () {
+                  Navigator.pushNamed(context, '/daily_prescription');
+                },
+              ),
+              const SizedBox(height: 16),
+              OutlinedButton.icon(
+                icon: const Icon(Icons.start),
+                label: const Text('Avaliação Rápida (Demo)'),
+                onPressed: () {
+                  // Mantém a funcionalidade original para demonstração
                   Navigator.pushNamed(context, '/patient_input');
                 },
               ),

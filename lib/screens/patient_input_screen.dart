@@ -26,14 +26,18 @@ class _PatientInputScreenState extends State<PatientInputScreen> {
 
   void _generatePrescription() {
     if (_formKey.currentState!.validate()) {
+      // Create a temporary patient for demo purposes
       final patient = Patient(
-        weight: double.parse(_weightController.text),
-        height: double.parse(_heightController.text),
-        creatinine: double.parse(_creatinineController.text),
+        nome: 'Paciente Demo',
+        sexo: Gender.M,
+        dataNascimento: DateTime.now().subtract(const Duration(days: 365 * 50)), // 50 years old
+        peso: double.parse(_weightController.text),
+        altura: double.parse(_heightController.text),
       );
 
       final prescriptionService = PrescriptionService();
-      final suggestion = prescriptionService.generatePrescription(patient);
+      final creatinine = double.parse(_creatinineController.text);
+      final suggestion = prescriptionService.generatePrescription(patient, creatinine);
 
       Navigator.push(
         context,

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:insuguia_mobile/screens/home_screen.dart';
 import 'package:insuguia_mobile/screens/patient_input_screen.dart';
-import 'package:insuguia_mobile/screens/prescription_result_screen.dart';
+import 'package:insuguia_mobile/screens/patient_registration_screen.dart';
+import 'package:insuguia_mobile/screens/daily_prescription_screen.dart';
 import 'package:insuguia_mobile/utils/app_theme.dart';
 
 void main() {
@@ -21,8 +22,9 @@ class InsuGuiaApp extends StatelessWidget {
       routes: {
         '/': (context) => const HomeScreen(),
         '/patient_input': (context) => const PatientInputScreen(),
+        '/patient_registration': (context) => const PatientRegistrationScreen(),
+        '/daily_prescription': (context) => const DailyPrescriptionScreen(),
         // A rota de resultado será chamada com argumentos, então não precisa ser registrada aqui
-        // a menos que você queira um acesso direto a ela por algum motivo.
       },
     );
   }

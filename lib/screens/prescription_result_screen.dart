@@ -1,18 +1,29 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:insuguia_mobile/models/patient_model.dart';
 
 class PrescriptionResultScreen extends StatelessWidget {
   final String prescriptionSuggestion;
+  final Patient? patient;
+  final DateTime? monitoringDate;
 
   const PrescriptionResultScreen({
     super.key,
     required this.prescriptionSuggestion,
+    this.patient,
+    this.monitoringDate,
   });
 
   @override
   Widget build(BuildContext context) {
+    String title = 'Sugestão de Prescrição';
+    if (patient != null && monitoringDate != null) {
+      title = 'Prescrição - ${DateFormat('dd/MM/yyyy').format(monitoringDate!)}';
+    }
+    
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Sugestão de Prescrição'),
+        title: Text(title),
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
