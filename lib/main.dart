@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:insuguia_mobile/screens/home_screen.dart';
 import 'package:insuguia_mobile/screens/patient_input_screen.dart';
 import 'package:insuguia_mobile/screens/patient_registration_screen.dart';
@@ -18,6 +19,15 @@ class InsuGuiaApp extends StatelessWidget {
       title: 'InsuGuia Mobile',
       theme: AppTheme.lightTheme,
       debugShowCheckedModeBanner: false,
+      localizationsDelegates: const [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: const [
+        Locale('pt', 'BR'),
+        Locale('en', 'US'),
+      ],
       initialRoute: '/',
       routes: {
         '/': (context) => const HomeScreen(),

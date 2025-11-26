@@ -1,5 +1,6 @@
 // lib/services/database_service.dart
 
+import 'package:flutter/foundation.dart';
 import 'package:postgres/postgres.dart';
 import 'package:insuguia_mobile/models/patient_model.dart';
 import 'package:insuguia_mobile/models/daily_monitoring_model.dart';
@@ -10,6 +11,12 @@ class DatabaseService {
   DatabaseService._internal();
 
   Connection? _connection;
+  
+  // Mock data for web platform
+  final List<Patient> _mockPatients = [];
+  final List<DailyMonitoring> _mockMonitoring = [];
+  int _nextPatientId = 1;
+  int _nextMonitoringId = 1;
 
   // Database connection configuration
   static const String _host = 'localhost';
@@ -20,6 +27,12 @@ class DatabaseService {
 
   // Connect to PostgreSQL database
   Future<void> connect() async {
+    // Skip database connection on web platform
+    if (kIsWeb) {
+      print('Database connection skipped on web platform');
+      return;
+    }
+    
     try {
       _connection = await Connection.open(
         Endpoint(
@@ -51,6 +64,10 @@ class DatabaseService {
 
   // Ensure connection is established
   Future<void> _ensureConnection() async {
+    if (kIsWeb) {
+      // Skip connection check on web
+      return;
+    }
     if (_connection == null || _connection!.isOpen == false) {
       await connect();
     }
@@ -61,6 +78,14 @@ class DatabaseService {
   // Insert a new patient
   Future<int> insertPatient(Patient patient) async {
     await _ensureConnection();
+    
+    if (kIsWeb) {
+      // Mock implementation for web
+      final patientWithId = patient.copyWith(id: _nextPatientId);
+      _mockPatients.add(patientWithId);
+      print('Mock: Patient registered - ${patient.nome} (ID: $_nextPatientId)');
+      return _nextPatientId++;
+    }
     
     final result = await _connection!.execute(
       '''
@@ -83,6 +108,11 @@ class DatabaseService {
   // Get all patients
   Future<List<Patient>> getAllPatients() async {
     await _ensureConnection();
+    
+    if (kIsWeb) {
+      // Return mock data for web
+      return List.from(_mockPatients);
+    }
     
     final result = await _connection!.execute(
       'SELECT id, nome, sexo, data_nascimento, peso, altura, created_at, updated_at FROM paciente ORDER BY nome'
@@ -162,6 +192,14 @@ class DatabaseService {
   // Insert daily monitoring record
   Future<int> insertDailyMonitoring(DailyMonitoring monitoring) async {
     await _ensureConnection();
+    
+    if (kIsWeb) {
+      // Mock implementation for web
+      final monitoringWithId = monitoring.copyWith(id: _nextMonitoringId);
+      _mockMonitoring.add(monitoringWithId);
+      print('Mock: Daily monitoring saved (ID: $_nextMonitoringId)');
+      return _nextMonitoringId++;
+    }
     
     final result = await _connection!.execute(
       '''
